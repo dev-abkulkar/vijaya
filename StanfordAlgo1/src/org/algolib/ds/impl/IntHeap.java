@@ -133,6 +133,9 @@ public class IntHeap implements Heap<Integer> {
 		return Arrays.copyOf(this.heapArr, this.heapArr.length);
 	}
 
+	public String getHeapAsString(){
+		return Arrays.toString(this.heapArr);
+	}
 	
 	
 }

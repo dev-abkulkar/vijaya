@@ -32,7 +32,7 @@ public class TWOSUM {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		String file = "algo1-programming_prob-2sum.txt";
-		System.out.println(twoSumSolution(file));
+		System.out.println(twoSumSolution(file));//ans is 427
 	}
 	
 	public static int twoSumSolution(String file) throws FileNotFoundException{
