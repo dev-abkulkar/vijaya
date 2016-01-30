@@ -87,7 +87,7 @@ public class KClustering {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		File f = new File("p2/clustering1.txt");
-		f = new File("p2/cluster4.txt");
+		//f = new File("p2/cluster4.txt");
 		Scanner sc = new Scanner(f);
 		int n = sc.nextInt();
 		//long[][] g = new long[n][n];
@@ -102,30 +102,9 @@ public class KClustering {
 			edges.add(new Edge(u,v,d));
 		}
 		
-		System.out.println("Max spacing = "+kCluster(n, 6));
+		System.out.println("Max spacing = "+kCluster(n, 4));
 		
 		sc.close();
-	}
-	
-	
-	static class Edge implements Comparable<Edge>{
-		int  u,v;
-		long length; 
-		Edge(int u2,int v2,long length){
-			this.v=v2;
-			this.u=u2;
-			this.length=length;
-		}
-		
-		@Override
-		public int compareTo(Edge o) {
-			return (int) (this.length-o.length);
-		}
-
-		@Override
-		public String toString() {
-			return "Edge [u=" + u + ", v=" + v + ", length=" + length + "]";
-		}
 	}
 	
 	
