@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class KBigClustering {
 
-	static boolean nl = false;
 	public static void main(String[] args) throws FileNotFoundException {
 	
 		File f = new File("p2/clustering_big.txt");
@@ -23,16 +22,9 @@ public class KBigClustering {
 		int uniqCount = 0;
 		int duplicateCount = 0;
 		int counter=0;
-		/*String[] s = "10000".split("");
-		System.out.println(Arrays.toString(s));
-		System.out.println("Normal="+convertBitsToInt(s));
-		System.out.println("BitMagic="+convertBitsToIntUsingBitMagic(s));
-		System.out.println();*/
-		
-		
-		
+		List<Edge> edgeList = new ArrayList<Edge>();
 		Set<Integer> numberSet = new LinkedHashSet<Integer>(); 
-		n = 10000;
+		//n = 10000;
 		while(sc.hasNextLine() && counter<n){
 			//System.out.println("Line number = "+(counter+1));
 			String line = sc.nextLine();
@@ -46,14 +38,32 @@ public class KBigClustering {
 			}
 			counter++;
 		}
-		numberSet=null;
-		//int[][] edges = new int[uniqCount][uniqCount];
 		
 		System.out.println("Total = "+counter);
 		System.out.println("Unique vertices="+uniqCount);
 		System.out.println("Duplicate Count="+duplicateCount);
 		sc.close();
 		
+		for(Integer x : numberSet){
+			//find 1 distance edges
+			List<Integer>  dist_1 = bitCombinations(1, 24);
+			Set<Integer> oneDistanceSet = new HashSet<Integer>();
+			for(Integer bit_1 : dist_1){
+				int y = x & bit_1;
+				if(!oneDistanceSet.contains(y) && numberSet.contains(y)){
+					oneDistanceSet.add(y);
+					
+				}
+				
+			}
+			List<Integer>  dist_1 = bitCombinations(1, 24);
+			for(Integer bit_1 : dist_1){
+				int y = x & bit_1;
+				if(numberSet.contains(y)){
+					
+				}
+			}
+		}
 	}
 	
 	static int convertBitsToInt(String[] bits){
@@ -119,6 +129,16 @@ public class KBigClustering {
 			bitCombinations(prefix + 0, ones, bitLength - 1, bits);
 		}
 
+	}
+	
+	static List<Integer> bitCombinations( int ones, int bitLength) {
+		List<String> bits = new ArrayList<String>();
+		List<Integer> intBits = new ArrayList<Integer>();
+		bitCombinations("", ones, bitLength, bits);
+		for(String b : bits){
+			intBits.add(bitsToInt(b.split("")));
+		}
+		return intBits;
 	}
 	
 	
