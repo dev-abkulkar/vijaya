@@ -15,64 +15,92 @@ import java.util.Set;
 
 public class KBigClustering {
 
-	public static void main(String[] args) throws FileNotFoundException {
 	
+	public static void main(String[] args) throws FileNotFoundException {
+		String fileName = "p2/clustering_big.txt";
+		/*
+		 * 10000 points: 9116 
+		 * 20000 points : 16508 
+		 * 30000 points : 22177 
+		 * 40000 points: 26292 
+		 * 75641 points: 28025
+		 */
+		int n=1000;
+		/*System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		n=10000;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		n=666;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		//75641:28025 - why am i getting 28026
+		n=75641 ;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		n=20000  ;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		n=40000 ;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		n=111111 ;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+		//30000 points : 22181
+		n=30000 ;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));*/
+		n=0;
+		System.out.println("---------------------For "+n+":"+doKBigClustering(fileName,n));
+	}
+	
+	private static int doKBigClustering(String fileName, int n) throws FileNotFoundException {
 		File f = new File("p2/clustering_big.txt");
 		//f = new File("p2/");
 		Scanner sc = new Scanner(f);
 		String[] fline = sc.nextLine().split("[\\s\\t]");
-		int n = Integer.parseInt(fline[0]);
+		if(n==0)
+			n = Integer.parseInt(fline[0]);
+		
 		int bits = Integer.parseInt(fline[1]);
 		System.out.println("Number of vertices = "+n);
 		int uniqCount = 0;
 		int duplicateCount = 0;
 		int counter=0;
-		List<Edge> edgeList = new ArrayList<Edge>();
+		List<Edge> edges = new ArrayList<Edge>();
 		Set<Integer> numberSet = new LinkedHashSet<Integer>(); 
-		List<Integer> allNumbers = new ArrayList<Integer>();
-		n = 1000;
+		//List<Integer> allNumbers = new ArrayList<Integer>();
 		while(sc.hasNextLine() && counter<n){
-			//System.out.println("Line number = "+(counter+1));
 			String line = sc.nextLine();
 			String[] verexBits = line.split("[\\s\\t]");
 			//System.out.println("Vertex Bits = "+verexBits.length);
 			int num = bitsToInt(verexBits);
 			if(numberSet.contains(num)){
 				duplicateCount++;
-				edgeList.add(new Edge(num,num,0));
+				//edges.add(new Edge(num,num,0));
 			}else{
 				uniqCount++;
 				numberSet.add(num);
 			}
-			allNumbers.add(num);
+			//allNumbers.add(num);
 			
 			counter++;
 		}
 		
-		findDistances(allNumbers);
+		//findDistances(allNumbers);
 		
 		System.out.println("Total = "+counter);
 		System.out.println("Unique vertices="+uniqCount);
 		System.out.println("Duplicate Count="+duplicateCount);
-		System.out.println("Edges added = "+edgeList.size());
+		System.out.println("Edges added = "+edges.size());
 		sc.close();
-		List<Edge> oneEdgeList = new ArrayList<Edge>();
-		List<Edge> twoEdgeList = new ArrayList<Edge>();
-		//Set<Integer> vertexAddedToEdge = new LinkedHashSet<Integer>();
-		Map<Integer,Integer> edgeAdded = new HashMap<Integer,Integer>();
+		Set<Edge> oneEdgeSet = new LinkedHashSet<Edge>();
+		Set<Edge> twoEdgeSet = new LinkedHashSet<Edge>();
+		Set<Integer> vertexAddedToEdge = new LinkedHashSet<Integer>();
 		for(Integer x : numberSet){
 			//find 1 distance edges
 			List<Integer>  dist_1 = bitCombinations(1, 24);
 			for(Integer bit_1 : dist_1){
-				int y = x ^ bit_1;
+				Integer y = x ^ bit_1;
 				if(numberSet.contains(y)){
-					if((edgeAdded.get(x)!=null && edgeAdded.get(x)==y) || (edgeAdded.get(y)!=null && edgeAdded.get(y)==x))
-						continue;
-					edgeAdded.put(x, y);
-					//edgeAdded.put(y, x);
 					Edge e= new Edge(x,y,1);
-					edgeList.add(e);
-					oneEdgeList.add(e);
+					vertexAddedToEdge.add(x);
+					vertexAddedToEdge.add(y);
+					//edgeList.add(e);
+					oneEdgeSet.add(e);
 				}
 				
 			}
@@ -80,33 +108,36 @@ public class KBigClustering {
 			List<Integer>  dist_2 = bitCombinations(2, 24);
 			
 			for(Integer bit_2 : dist_2){
-				int z = x ^ bit_2;
+				Integer z = x ^ bit_2;
 				if(numberSet.contains(z)){
-					if((edgeAdded.get(x)!=null && edgeAdded.get(x)==z) || (edgeAdded.get(z)!=null && edgeAdded.get(z)==x))
-						continue;
-					edgeAdded.put(x, z);
-					//edgeAdded.put(z, x);
 
+					vertexAddedToEdge.add(x);
+					vertexAddedToEdge.add(z);
 					Edge e = new Edge(x,z,2);
-					edgeList.add(e);
-					twoEdgeList.add(e);
+					//edgeList.add(e);
+					twoEdgeSet.add(e);
 				}
 			}
 			
 		}
 		
-		System.out.println("Edges with Lenght = 1 "+oneEdgeList.size());
-		for (Edge edge : oneEdgeList) {
+		System.out.println("Edges with Lenght = 1 "+oneEdgeSet.size());
+		/*for (Edge edge : oneEdgeList) {
 			System.out.println(edge);
-		}
-		System.out.println("Edges with Length = 2 "+twoEdgeList.size());
-		for (Edge edge : twoEdgeList) {
+		}*/
+		System.out.println("Edges with Length = 2 "+twoEdgeSet.size());
+		/*for (Edge edge : twoEdgeList) {
 			System.out.println(edge);
-		}
+		}*/
 		
 		
-		
-		/*Map<Integer,Set<Integer>> parentToVeritces = new HashMap<Integer,Set<Integer>>();
+		edges.addAll(oneEdgeSet);
+		edges.addAll(twoEdgeSet);
+		oneEdgeSet=null;
+		twoEdgeSet=null;
+		numberSet=null;
+		System.out.println("Total edges= "+edges.size());
+		Map<Integer,Set<Integer>> parentToVeritces = new HashMap<Integer,Set<Integer>>();
 		Map<Integer,Integer> vertexToParent= new HashMap<Integer,Integer>();
 		
 		for(Integer vertex : vertexAddedToEdge){
@@ -115,7 +146,7 @@ public class KBigClustering {
 			childs.add(vertex);
 			parentToVeritces.put(vertex, childs);
 		}
-		Collections.sort(edgeList);
+		Collections.sort(edges);
 		int cluster = vertexAddedToEdge.size();
 		int totalUniq = uniqCount-cluster;
 		int edgeCount=0;
@@ -123,7 +154,7 @@ public class KBigClustering {
 		while(true){
 			if(vertexAddedToEdge.size()==0)
 				break;
-			Edge e = edgeList.get(edgeCount);
+			Edge e = edges.get(edgeCount);
 			int u = e.u;
 			int v = e.v;
 			edgeCount++;
@@ -159,10 +190,11 @@ public class KBigClustering {
 		}
 		System.out.println("Clusters = "+cluster);
 		System.out.println("Left out vertices = "+totalUniq);
-		System.out.println("Answer="+(cluster+totalUniq));*/
+		System.out.println("Answer="+(cluster+totalUniq));
+		return cluster+totalUniq;
 		
 	}
-	
+
 	private static void findDistances(Collection<Integer> numberSet) {
 		System.out.println("Numerb Set  Size="+numberSet.size());
 		List<Integer> vrtices = new ArrayList<Integer>(numberSet);
