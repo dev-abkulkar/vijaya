@@ -1,5 +1,7 @@
 package algo.part2;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -9,12 +11,12 @@ public class KnapSack {
 	private int[] weights;
 	private int totalSize;
 	private int numOfitems;
-	public static final String file = "knapsack1.txt";
+	//public static final String file = "knapsack1.txt";
 	
 	
 	
 	public void load(String fileName) throws FileNotFoundException {
-		Scanner sc = new Scanner(new File(file));
+		Scanner sc = new Scanner(new File(fileName));
 		this.totalSize = sc.nextInt();
 		this.numOfitems = sc.nextInt();
 		this.values = new int[numOfitems];
@@ -26,20 +28,32 @@ public class KnapSack {
 			counter++;
 		}
 		sc.close();
+		
 	}
 	
 	public int calculateMaxProfit(){
-		int[][] ksDynamic = new int[this.totalSize+1][this.numOfitems+1]; 
-		for(int i=0;i<this.totalSize+1;i++)
-			ksDynamic[i][0] = 0;
-		for(int j=0;j<this.numOfitems+1;j++){
-			ksDynamic[0][j] = 0;
-		}
-		for(int item=1;item<this.numOfitems+1;item++){
-			for(int weight=1;weight<this.totalSize+1;weight++){
-				
+		//System.out.println("");
+		int[][] A = new int[this.numOfitems+1][this.totalSize+1]; 
+		for(int i = 0 ;i<numOfitems+1;i++)
+			for(int j=0 ;j<totalSize+1;j++){
+				if(i==0 || j==0)
+					A[i][j]=0;
+				else if(weights[i-1] <=j){
+					A[i][j] = Math.max(A[i-1][j], values[i-1]+A[i-1][j-weights[i-1]]);
+				}
+						
 			}
-		}
-		return ksDynamic[this.totalSize][this.numOfitems];
+		return A[this.numOfitems][this.totalSize];
 	} 
+	public static void main(String[] args) {
+		String file ="knapsack2.txt";
+		KnapSack ks = new KnapSack();
+		try{
+			ks.load(file);
+			System.out.println(ks.calculateMaxProfit());
+		}catch(Exception e){
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		}
+	}
 }
