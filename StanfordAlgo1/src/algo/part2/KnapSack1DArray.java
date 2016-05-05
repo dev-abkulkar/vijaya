@@ -1,12 +1,10 @@
 package algo.part2;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class KnapSack {
+public class KnapSack1DArray {
 	private int[] values ;
 	private int[] weights;
 	private int totalSize;
@@ -31,31 +29,17 @@ public class KnapSack {
 		
 	}
 	
+	
 	public int calculateMaxProfit(){
-		//System.out.println("");
-		int[][] A = new int[this.numOfitems+1][this.totalSize+1]; 
-		for(int i = 0 ;i<numOfitems+1;i++)
-			for(int j=0 ;j<totalSize+1;j++){
-				if(i==0 || j==0)
-					A[i][j]=0;
-				else if(weights[i-1] <=j){
-					A[i][j] = Math.max(A[i-1][j], values[i-1]+A[i-1][j-weights[i-1]]);
-				}else{
-					A[i][j] = A[i-1][j];
-				}
-						
+		int[] a = new int[this.totalSize+1];
+		for(int i=0;i<this.numOfitems;i++){
+			for(int j=this.totalSize;j>=0;j--){
+				int vn = values[i];
+				int wn = weights[i];
+				a[j]= j<wn?a[j] : Math.max(a[j], vn + a[j-wn]);
 			}
-		return A[this.numOfitems][this.totalSize];
-	} 
-	public static void main(String[] args) {
-		String file ="p2/knapsack_assn1.txt";
-		KnapSack ks = new KnapSack();
-		try{
-			ks.load(file);
-			System.out.println(ks.calculateMaxProfit());
-		}catch(Exception e){
-			e.printStackTrace();
-			fail(e.getLocalizedMessage());
 		}
+		return a[this.totalSize];
 	}
+	//2489489
 }

@@ -1,24 +1,22 @@
 package algo.part2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class KnapSackTest {
+public class KnapSackRecursiveTest {
 
-	
 	private String file;
 	private int answer;
 	private long after;
 	private long before;
 
-	
 	@Before
 	public void before(){
 		this.before = System.currentTimeMillis();
-	}	
+	}
 	
 	@After
 	public void after(){
@@ -26,29 +24,27 @@ public class KnapSackTest {
 		System.out.println("Answer for "+file+" = "+this.answer);
 		System.out.println("Time Taken in seconds = "+(this.after-this.before)/1000D);
 	}
-
-
-	@Test
-	public void smallTest(){
+	
+	//@Test
+	public void gfgTest(){
 		this.file ="p2/ks_gfg.txt";
-		KnapSack ks = new KnapSack();
+		KnapSackRecursive ks = new KnapSackRecursive();
 		try{
 			ks.load(file);
-			this.answer = ks.calculateMaxProfit();
+			this.answer = ks.maxProfitThruCache();
 		}catch(Exception e){
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
 		}
 	}
 	
-	
-	@Test
-	public void testFromCoursera(){
-		this.file = "p2/knapsack_assn1.txt";
-		KnapSack ks = new KnapSack();
+	//@Test
+	public void testFromCourseraAssn1(){
+		this.file ="p2/knapsack_assn1.txt";
+		KnapSackRecursive ks = new KnapSackRecursive();
 		try{
 			ks.load(file);
-			this.answer = ks.calculateMaxProfit();
+			this.answer = ks.maxProfitThruCache();
 		}catch(Exception e){
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
@@ -59,7 +55,7 @@ public class KnapSackTest {
 	public void testFromStackoverflow(){
 		//http://stackoverflow.com/questions/17246670/0-1-knapsack-dynamic-programming-optimazion-from-2d-matrix-to-1d-matrix#
 		this.file = "p2/ks_stackoverflow.txt";
-		KnapSack ks = new KnapSack();
+		KnapSackRecursive ks = new KnapSackRecursive();
 		try{
 			ks.load(file);
 			this.answer = ks.calculateMaxProfit();
@@ -68,4 +64,9 @@ public class KnapSackTest {
 			fail(e.getLocalizedMessage());
 		}
 	}
+	
+	
+	
+	
+	
 }
