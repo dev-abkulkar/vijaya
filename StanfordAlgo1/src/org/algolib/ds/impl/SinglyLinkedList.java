@@ -5,7 +5,7 @@ import org.algolib.ds.LinkedList;
 
 public class SinglyLinkedList<T> implements LinkedList<T> {
 
-	LNode<T> head;
+	protected LNode<T> head;
 		
 	public LNode<T> getHead(){
 		return this.head;
@@ -37,7 +37,10 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 	@Override
 	public void insertAtPos(T data, int pos) throws Exception {
 		LNode<T> lnode = new LNode<T>(data);
-		if(pos==1){
+		if(pos < 0){
+			throw new Exception("Position has to be zero or a positive integer");
+		}
+		if(pos==1 || pos==0){
 			insertAtHead(data);
 		}else{
 			int curpos= 1;
@@ -51,13 +54,14 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 			lnode.setNext(curNode.getNext());
 			curNode.setNext(lnode);
 		}
-		
 	}
 
 	@Override
-	public void deleteHead() {
+	public void deleteHead() throws Exception {
 		if(this.head!=null){
 			this.head=this.head.getNext();
+		}else{
+			throw new Exception("List is empty!");
 		}
 	}
 
@@ -78,6 +82,9 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 
 	@Override
 	public void deleteAtPos(int pos) throws Exception {
+		if(pos<0){
+			throw new Exception("Position should be zero or a positive integer");
+		}
 		if(this.head!=null){
 			if(pos==1)
 				this.deleteHead();
@@ -111,5 +118,6 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 			}
 			curNode=curNode.getNext();
 		}
+		System.out.println();
 	}
 }

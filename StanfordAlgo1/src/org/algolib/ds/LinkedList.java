@@ -6,7 +6,7 @@ public interface LinkedList<T> {
 	public void insertAtTail(T data);
 	public void insertAtPos(T data, int pos) throws Exception;
 	
-	public void deleteHead();
+	public void deleteHead() throws Exception;
 	public void deleteTail();
 	public void deleteAtPos(int pos) throws Exception;
 	
