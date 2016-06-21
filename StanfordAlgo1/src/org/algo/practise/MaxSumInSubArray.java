@@ -14,8 +14,8 @@ public class MaxSumInSubArray {
 			//we need to return the smallest negative element not 0!
 			maxSum=curSum;
 			for (int i = 1; i < a.length; i++) {
-				curSum = (a[i] + curSum > a[i])?a[i] + curSum:a[i];  
-				maxSum = (maxSum < curSum) ? curSum : maxSum;	
+				curSum = (a[i] + curSum > a[i]) ? (a[i] + curSum) : a[i];
+				maxSum = (maxSum < curSum) ? curSum : maxSum;
 			}
 		}
 		return maxSum;
