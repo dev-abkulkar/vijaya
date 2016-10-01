@@ -1,0 +1,324 @@
+Consider the following graph with five 
+vertices. 
+I'll label their edges with their costs 
+in blue. 
+So, let's step through the values of I, 
+and since there's five vertices, I's 
+going to take on the value of zero one 
+two three four, and let's look at what 
+the results of each round of subproblem 
+computations is. 
+So in the base case when I equals zero as 
+always the distance from s to itself is 
+zero and from all other verticies the sub 
+problem value is defined as plus 
+infinity. 
+Let me write down the recurrence again, 
+just in case you've forgotten it. 
+So now we enter the main four loops and 
+we start with I equal one. 
+So now, we just go through the vertices 
+in arbitrary order and evaluate the 
+recurrence. 
+So node S is going to just inherit the 
+solution from the previous step. 
+It's still happy with the empty path of 
+total length zero. 
+Now, note v is certainly hoping not to 
+have to inherit it's, solution of plus 
+infinity from the previous round, when 
+I0. 
+equals zero. 
+And indeed, when I1, equals 1, the 
+subproblem solution for the vertex v is 
+going to be two. 
+That's'cause we can choose the last hop 
+to be the edge s, v. 
+That has length two, 
+and s's subproblem value, last iteration, 
+when I0, equals zero. 
+By the same reasoning, x's new subproblem 
+value is going to be four cause we can 
+choose the last half to be s coma x and 
+add the cost of that edge four to s's 
+subproblem value last iteration of I 
+equals zero. 
+Now the nodes w and t would love to throw 
+out their plus infinity solutions, and 
+get something finite. 
+And you might be thinking that because v 
+and x now have finite distances. 
+Those would propagate to the nodes w and 
+t. 
+That will indeed happen, but we're 
+going to have to wait till the next 
+iteration. 
+We're going to have to wait till I2. 
+equals 2. 
+The reason is, if you look at the code, 
+if you look at the recurrence, 
+when we compute the subproblem value at a 
+given iteration i, 
+we only make use of the subproblem 
+solutions from the previous iteration, I 
+minus 1. 
+We do not use any of the updates that 
+have already happened in the current 
+iteration, I. 
+So because, when Izero. 
+equals zero, a of zero v and a of zero x 
+were both plus infinity, we're going to 
+be stuck with a1w and a1t, both being 
+plus infinity as well. 
+So now let's move on to the next 
+iteration of the outer four loop, when I 
+equals two. 
+the sub-problem solution at S is not 
+going to change. 
+You're not going to do better than zero, 
+so it's going to stay that way. 
+Similarly at the vertex V you're not 
+going to do better than two, so that's 
+going to stay the same at this iteration. 
+Something interesting happens at the 
+vertex x, however. 
+Now, in the recurrence, you certainly 
+have the option of inheriting the 
+previous solution. 
+So one option would be to say a of two, x 
+to be equal to four, but there's actually 
+a better choice. 
+So the recurrence is going to come out to 
+be even smaller, specifically if we 
+choose that last hop to be the unit cost 
+arc from vx. 
+We add that unit cost to v sub-problem 
+value of the last iteration when I equals 
+1. 
+That was 2. 
+2 plus 1 equals 3, 
+so that's going to be the new sub-problem 
+value at x, in this iteration of I equals 
+2. 
+So as advertised, the updates to the 
+vertices V and X in the rate, iteration 
+where I equals 1, now that I equals 2 get 
+propagated on to the vertices W and T. 
+So W and T shed their plus infinity 
+values, 
+and instead they pick up the values 4 and 
+8, respectively. 
+Notice that I've labelled the vertex t 
+with an 8, not with a 7. 
+I've computed a of 2, t to be 8. 
+And the reason is, again, the same, 
+updates from this iteration, in 
+particular the fact that x is dropped 
+from 4 to 3 do not get reflected at other 
+nodes in this same iteration. 
+We have to wait until the next iteration 
+of the outer fore loop before they 
+happen. 
+So we're using the stale information of x 
+that when I equals 1, it's solution value 
+was four. 
+That's the information we're using to 
+update T solution value so it's 4 plus 4 
+or 8. 
+So with penultimate iteration when I 
+equals 3, most things stay the same. 
+At S and V at X and W, we actually 
+computed the shorted paths, so they will 
+all just inherent the solution from the 
+previous iteration. 
+But at vertex T, it will now make use of 
+the improved solution value at the vertex 
+X from the iteration where I equals 2. 
+So it's F, its 8 gets updated to be a 7, 
+reflecting the improvement at X, the 
+previous iteration. 
+And at this point, we're actually done. 
+We've computed shortest paths to all 
+destinations, but the algorithm doesn't 
+know that we're done yet. 
+So it still executes the final iteration 
+of the outer for loop where I equals 4, 
+but everybody just inherits their 
+solutions from the previous round. 
+At that point the algorithm terminates. 
+For most of the dynamic programming 
+algorithms that we've discussed, the 
+running time analysis has been trivial. 
+the Bellman-Ford algorithm is a little 
+more interesting from a running time 
+analysis perspective. 
+Please think about it in this quiz. 
+So, the correct answer is b. 
+That is of all these running time bounds, 
+the smallest bound, which is actually 
+correct. 
+So, let me explain why. 
+Why it's the number of edges times the 
+number of vertices and also comment on 
+some of the other options. 
+So answer A quadratic and squared. 
+What this is, this is the number of 
+sub-problems. 
+Right? 
+So sub-problems are indexed by a choice 
+of I, which is somewhere between zero and 
+n minus one, and a choice of a 
+destination v, there's n choices for each 
+of those exactly n squared sub-problems. 
+If we only ever spent constant time 
+evaluating a sub-problem, then indeed, 
+the running time of Bellman-Ford would be 
+big O of n squared. 
+And in most dynamic programming 
+algorithms we've discussed in this class, 
+indeed you only spend, constant time 
+solving each sub-problem. 
+The one exception being the optimal 
+binary search trees problem, where in 
+general we spent linear time. 
+Here again, like optimal binary search 
+trees, 
+We might spend more than constant time 
+solving the sub-problem. 
+The reason being we have to do brute 
+force search through a list of candidates 
+that might be super constant. 
+The reason is that each in, each arc that 
+comes in to the destination v, provides 
+one candidate for what the correct 
+solution to this sub-problem might be. 
+So remember, the number of candidates, we 
+had a quiz on this, is proportional to 
+the n degree of the vertex v and that 
+could be as large as n minus 1, linear, 
+the number of vertices. 
+So that's why the running time of the 
+Bellman-Ford algorithm can, in general, 
+be worse than N squared. 
+Another interesting answer is c, 
+that it's cubic in n. 
+Indeed, big o of n3 cubed is a valid 
+upper bound on the running time of the 
+Bellman-Ford algorithm, 
+but it's not the sharpest possible upper 
+bound. 
+So why is it a valid upper bound, as 
+discussed just now? 
+There's a quadratic n2 squared number of 
+subproblems. 
+How much work do you do per subproblem? 
+Well, it's proportional to the n degree 
+of a vertex. 
+The biggest n degree of a vertex is n 
+minus 1, big o of n. 
+So, linear work for each of the quadratic 
+number of subproblems, resulting in cubic 
+running time. 
+There is however a tighter, a better 
+analysis of the Bellman-Ford algorithm. 
+Now, why is o of mn bigger than n cubed? 
+Well, what is m? 
+In a sparse graph, m is going to be theta 
+of n and in a dense graph m is going to 
+be m squared. 
+So with a dense graph its true big o of 
+mn is no smaller then n cubed, but if its 
+not a dense graph then this really is an 
+improved upper bound. 
+So, why does the bound hold? 
+Well, think about all of the total amount 
+of work done over all of the subproblems 
+in the following way. 
+So all we're going to do is take the 
+amount of work done in a given iteration 
+of the outer for loop, and multiply it by 
+n, the number of iterations of the outer 
+for loop. 
+So how much work do we do in a given 
+iteration for a given choice of I? well 
+it's just the sum of the N degrees. 
+When we consider the vertex V, we do our 
+proportional to its n degree, 
+and we consider each vertex V once in the 
+given iteration of the outer for loop. 
+But we know a much simpler expression for 
+the sum of the n degrees. 
+The sum is simply equal to M, 
+the number of edges. 
+In any directed graph, the number of 
+edges is exactly equal to the sum of the 
+N degrees. 
+One easy way to see that is take your 
+favorite directed graph, 
+and imagine you plug the edges into the 
+graph, one at a time, starting from the 
+empty set of edges. 
+Well, each time you plug in a new edge, 
+obviously the number of edges in the 
+graph goes up by one. 
+And also the N degree of exactly one 
+vertex goes up by one, 
+whichever vertex happens to be the head 
+of the edge that you just stuck in. 
+So therefore the sum of N degrees and the 
+sum of yet, the number of edges is always 
+the same no matter what the directed 
+graph is. 
+So that's why the total work is better 
+than N cubed. 
+It's actually big O of M times N. 
+So a number of optimizations of the basic 
+Bellman-Ford algorithm are possible. 
+Let me wrap up this video just with a 
+quick one about stopping early. 
+See also a separate video about a less 
+trivial space optimization of the 
+algorithm. 
+The basic version of the algorithm, the 
+outer for loop runs for N minus one 
+iterations. 
+Generally you don't need all of them. 
+We already saw that in our simple 
+example, where the final iteration did no 
+useful work. 
+It just inherited the solutions from the 
+previous iteration. 
+So, in general, suppose at some 
+iteration, earlier than the last one, so 
+say with the current index value of j, it 
+just so happens that nothing changes. 
+So at every destination v, you just reuse 
+the optimal solution that you recomputed 
+in the previous iteration of the outer 
+for loop. 
+Well, then if you think about it, what's 
+going to happen in the next iteration? 
+You're going to do the exactly the same 
+set of computations with exactly the same 
+set of inputs, so you're going to get 
+exactly the same set of results. 
+That is, it will be true again in the 
+next iteration, but you will just inherit 
+the optimal solutions from the previous 
+one, and that will keep happening over 
+and over again until the rest of time. 
+So in particular, by the time you get to 
+the n minus 1th iteration of the out for 
+loop, you will have exactly the same set 
+of solution values as you do right now. 
+We've already proven that the results at 
+the end of iteration n minus one are 
+correct. 
+Those are the real shortest path 
+distances. 
+If you already have them in your grubby 
+little hands now, well you may as well 
+abort the algorithm and return those as 
+the final correct shortest path 
+distances. 
+

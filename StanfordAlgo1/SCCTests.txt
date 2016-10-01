@@ -1,0 +1,6 @@
+File			Expectedvalue
+SCC_3.txt		3,3,1
+SCC_1.txt		3,3,3
+SCC_2.txt		3,3,2,0,0
+SCC_4.txt		7,1,0
+SCC.txt			434821,968,459,313,211
